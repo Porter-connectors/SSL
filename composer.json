@@ -9,7 +9,6 @@
   ],
   "license": "LGPL-3.0",
   "require": {
-    "php": "^5.5|^7",
     "scriptfusion/porter": ">=1,<4"
   },
   "require-dev": {
