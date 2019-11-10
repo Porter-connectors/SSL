@@ -1,5 +1,5 @@
 <?php
-namespace ScriptFUSIONTest\Unit\Porter\Net\Ssl;
+namespace ScriptFUSIONTest\Unit;
 
 use ScriptFUSION\Porter\Net\Ssl\SslOptions;
 

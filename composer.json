@@ -16,7 +16,7 @@
   },
   "autoload": {
     "psr-4": {
-      "ScriptFUSION\\Porter\\": "src"
+      "ScriptFUSION\\Porter\\Net\\Ssl\\": "src"
     }
   },
   "autoload-dev": {
