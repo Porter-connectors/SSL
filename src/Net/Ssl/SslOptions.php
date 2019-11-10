@@ -1,310 +1,275 @@
 <?php
+declare(strict_types=1);
+
 namespace ScriptFUSION\Porter\Net\Ssl;
 
-use ScriptFUSION\Porter\Options\EncapsulatedOptions;
-
-/**
- * Encapsulates SSL context options.
- *
- * @see http://php.net/manual/en/context.ssl.php
- */
-final class SslOptions extends EncapsulatedOptions
+final class SslOptions
 {
-    /**
-     * @return string
-     */
-    public function getPeerName()
+    /** @var string|null */
+    private $peerName;
+
+    private $verifyPeer = true;
+
+    private $verifyPerName = true;
+
+    private $allowSelfSigned = false;
+
+    /** @var string|null */
+    private $certificateAuthorityFilePath;
+
+    /** @var string|null */
+    private $certificateAuthorityDirectory;
+
+    /** @var string|null */
+    private $certificateFilePath;
+
+    /** @var string|null */
+    private $certificatePassphrase;
+
+    /** @var string|null */
+    private $privateKeyFilePath;
+
+    /** @var int|null */
+    private $verificationDepth;
+
+    private $ciphers = 'DEFAULT';
+
+    /** @var bool|null */
+    private $capturePeerCertificate;
+
+    /** @var bool|null */
+    private $capturePeerCertificateChain;
+
+    /** @var bool|null */
+    private $sniEnabled;
+
+    /** @var bool|null */
+    private $disableCompression;
+
+    /** @var string|array */
+    private $peerFingerprint;
+
+    public function getPeerName(): ?string
     {
-        return $this->get('peer_name');
+        return $this->peerName;
+    }
+
+    public function setPeerName(?string $peerName): self
+    {
+        $this->peerName = $peerName;
+
+        return $this;
+    }
+
+    public function getVerifyPeer(): bool
+    {
+        return $this->verifyPeer;
+    }
+
+    public function setVerifyPeer(bool $verifyPeer): self
+    {
+        $this->verifyPeer = $verifyPeer;
+
+        return $this;
+    }
+
+    public function getVerifyPeerName(): bool
+    {
+        return $this->verifyPerName;
+    }
+
+    public function setVerifyPeerName(bool $verifyPeerName): self
+    {
+        $this->verifyPerName = $verifyPeerName;
+
+        return $this;
+    }
+
+    public function getAllowSelfSigned(): bool
+    {
+        return $this->allowSelfSigned;
+    }
+
+    public function setAllowSelfSigned(bool $allowSelfSigned): self
+    {
+        $this->allowSelfSigned = $allowSelfSigned;
+
+        return $this;
+    }
+
+    public function getCertificateAuthorityFilePath(): ?string
+    {
+        return $this->certificateAuthorityFilePath;
+    }
+
+    public function setCertificateAuthorityFilePath(?string $certificateAuthorityFilePath): self
+    {
+        $this->certificateAuthorityFilePath = $certificateAuthorityFilePath;
+
+        return $this;
+    }
+
+    public function getCertificateAuthorityDirectory(): ?string
+    {
+        return $this->certificateAuthorityDirectory;
+    }
+
+    public function setCertificateAuthorityDirectory(?string $certificateAuthorityDirectory): self
+    {
+        $this->certificateAuthorityDirectory = $certificateAuthorityDirectory;
+
+        return $this;
+    }
+
+    public function getCertificateFilePath(): ?string
+    {
+        return $this->certificateFilePath;
+    }
+
+    public function setCertificateFilePath(?string $certificateFilePath): self
+    {
+        $this->certificateFilePath = $certificateFilePath;
+
+        return $this;
+    }
+
+    public function getCertificatePassphrase(): ?string
+    {
+        return $this->certificatePassphrase;
+    }
+
+    public function setCertificatePassphrase(?string $certificatePassphrase): self
+    {
+        $this->certificatePassphrase = $certificatePassphrase;
+
+        return $this;
+    }
+
+    public function getPrivateKeyFilePath(): ?string
+    {
+        return $this->privateKeyFilePath;
+    }
+
+    public function setPrivateKeyFilePath(?string $privateKeyFilePath): self
+    {
+        $this->privateKeyFilePath = $privateKeyFilePath;
+
+        return $this;
+    }
+
+    public function getVerificationDepth(): ?int
+    {
+        return $this->verificationDepth;
+    }
+
+    public function setVerificationDepth(?int $verificationDepth): self
+    {
+        $this->verificationDepth = $verificationDepth;
+
+        return $this;
+    }
+
+    public function getCiphers(): string
+    {
+        return $this->ciphers;
+    }
+
+    public function setCiphers(string $ciphers): self
+    {
+        $this->ciphers = $ciphers;
+
+        return $this;
+    }
+
+    public function getCapturePeerCertificate(): ?bool
+    {
+        return $this->capturePeerCertificate;
+    }
+
+    public function setCapturePeerCertificate(?bool $capturePeerCertificate): self
+    {
+        $this->capturePeerCertificate = $capturePeerCertificate;
+
+        return $this;
+    }
+
+    public function getCapturePeerCertificateChain(): ?bool
+    {
+        return $this->capturePeerCertificateChain;
+    }
+
+    public function setCapturePeerCertificateChain(?bool $capturePeerCertificateChain): self
+    {
+        $this->capturePeerCertificateChain = $capturePeerCertificateChain;
+
+        return $this;
+    }
+
+    public function getSniEnabled(): ?bool
+    {
+        return $this->sniEnabled;
+    }
+
+    public function setSniEnabled(?bool $sniEnabled): self
+    {
+        $this->sniEnabled = $sniEnabled;
+
+        return $this;
+    }
+
+    public function getDisableCompression(): ?bool
+    {
+        return $this->disableCompression;
+    }
+
+    public function setDisableCompression(?bool $disableCompression): self
+    {
+        $this->disableCompression = $disableCompression;
+
+        return $this;
     }
 
     /**
-     * @param string $peerName
-     *
-     * @return $this
-     */
-    public function setPeerName($peerName)
-    {
-        return $this->set('peer_name', "$peerName");
-    }
-
-    /**
-     * @return bool
-     */
-    public function getVerifyPeer()
-    {
-        return $this->get('verify_peer');
-    }
-
-    /**
-     * @param bool $verifyPeer
-     *
-     * @return $this
-     */
-    public function setVerifyPeer($verifyPeer)
-    {
-        return $this->set('verify_peer', (bool)$verifyPeer);
-    }
-
-    /**
-     * @return bool
-     */
-    public function getVerifyPeerName()
-    {
-        return $this->get('verify_peer_name');
-    }
-
-    /**
-     * @param bool $verifyPeerName
-     *
-     * @return $this
-     */
-    public function setVerifyPeerName($verifyPeerName)
-    {
-        return $this->set('verify_peer_name', (bool)$verifyPeerName);
-    }
-
-    /**
-     * @return bool
-     */
-    public function getAllowSelfSigned()
-    {
-        return $this->get('allow_self_signed');
-    }
-
-    /**
-     * @param bool $allowSelfSigned
-     *
-     * @return $this
-     */
-    public function setAllowSelfSigned($allowSelfSigned)
-    {
-        return $this->set('allow_self_signed', (bool)$allowSelfSigned);
-    }
-
-    /**
-     * @return string
-     */
-    public function getCertificateAuthorityFilePath()
-    {
-        return $this->get('cafile');
-    }
-
-    /**
-     * @param string $certificateAuthorityFilePath
-     *
-     * @return $this
-     */
-    public function setCertificateAuthorityFilePath($certificateAuthorityFilePath)
-    {
-        return $this->set('cafile', "$certificateAuthorityFilePath");
-    }
-
-    /**
-     * @return string
-     */
-    public function getCertificateAuthorityDirectory()
-    {
-        return $this->get('capath');
-    }
-
-    /**
-     * @param string $certificateAuthorityDirectory
-     *
-     * @return $this
-     */
-    public function setCertificateAuthorityDirectory($certificateAuthorityDirectory)
-    {
-        return $this->set('capath', "$certificateAuthorityDirectory");
-    }
-
-    /**
-     * @return string
-     */
-    public function getCertificateFilePath()
-    {
-        return $this->get('local_cert');
-    }
-
-    /**
-     * @param string $certificateFilePath
-     *
-     * @return $this
-     */
-    public function setCertificateFilePath($certificateFilePath)
-    {
-        return $this->set('local_cert', "$certificateFilePath");
-    }
-
-    /**
-     * @return string
-     */
-    public function getCertificatePassphrase()
-    {
-        return $this->get('passphrase');
-    }
-
-    /**
-     * @param string $certificatePassphrase
-     *
-     * @return $this
-     */
-    public function setCertificatePassphrase($certificatePassphrase)
-    {
-        return $this->set('passphrase', "$certificatePassphrase");
-    }
-
-    /**
-     * @return string
-     */
-    public function getPrivateKeyFilePath()
-    {
-        return $this->get('local_pk');
-    }
-
-    /**
-     * @param string $privateKeyFilePath
-     *
-     * @return $this
-     */
-    public function setPrivateKeyFilePath($privateKeyFilePath)
-    {
-        return $this->set('local_pk', "$privateKeyFilePath");
-    }
-
-    /**
-     * @return int
-     */
-    public function getVerificationDepth()
-    {
-        return $this->get('verify_depth');
-    }
-
-    /**
-     * @param int $verificationDepth
-     *
-     * @return $this
-     */
-    public function setVerificationDepth($verificationDepth)
-    {
-        return $this->set('verify_depth', $verificationDepth | 0);
-    }
-
-    /**
-     * @return string
-     */
-    public function getCiphers()
-    {
-        return $this->get('ciphers');
-    }
-
-    /**
-     * @param string $ciphers
-     *
-     * @return $this
-     */
-    public function setCiphers($ciphers)
-    {
-        return $this->set('ciphers', "$ciphers");
-    }
-
-    /**
-     * @return bool
-     */
-    public function getCapturePeerCertificate()
-    {
-        return $this->get('capture_peer_cert');
-    }
-
-    /**
-     * @param bool $capturePeerCertificate
-     *
-     * @return $this
-     */
-    public function setCapturePeerCertificate($capturePeerCertificate)
-    {
-        return $this->set('capture_peer_cert', (bool)$capturePeerCertificate);
-    }
-
-    /**
-     * @return bool
-     */
-    public function getCapturePeerCertificateChain()
-    {
-        return $this->get('capture_peer_cert_chain');
-    }
-
-    /**
-     * @param bool $capturePeerCertificateChain
-     *
-     * @return $this
-     */
-    public function setCapturePeerCertificateChain($capturePeerCertificateChain)
-    {
-        return $this->set('capture_peer_cert_chain', (bool)$capturePeerCertificateChain);
-    }
-
-    /**
-     * @return bool
-     */
-    public function getSniEnabled()
-    {
-        return $this->get('SNI_enabled');
-    }
-
-    /**
-     * @param bool $sniEnabled
-     *
-     * @return $this
-     */
-    public function setSniEnabled($sniEnabled)
-    {
-        return $this->set('SNI_enabled', (bool)$sniEnabled);
-    }
-
-    /**
-     * @return bool
-     */
-    public function getDisableCompression()
-    {
-        return $this->get('disable_compression');
-    }
-
-    /**
-     * @param bool $disableCompression
-     *
-     * @return $this
-     */
-    public function setDisableCompression($disableCompression)
-    {
-        return $this->set('disable_compression', (bool)$disableCompression);
-    }
-
-    /**
-     * @return string|array
+     * @return array|string
      */
     public function getPeerFingerprint()
     {
-        return $this->get('peer_fingerprint');
+        return $this->peerFingerprint;
     }
 
     /**
-     * @param string|array $peerFingerprint
+     * @param array|string $peerFingerprint
      *
      * @return $this
      */
-    public function setPeerFingerprint($peerFingerprint)
+    public function setPeerFingerprint($peerFingerprint): self
     {
-        return $this->set('peer_fingerprint', is_array($peerFingerprint) ? $peerFingerprint : "$peerFingerprint");
+        $this->peerFingerprint = $peerFingerprint;
+
+        return $this;
     }
 
-    /**
-     * Extracts a list of SSL context options.
-     *
-     * @return array SSL context options.
-     */
-    public function extractSslContextOptions()
+    public function extractSslContextOptions(): array
     {
-        return $this->copy();
+        return array_filter([
+            'peer_name' => $this->peerName,
+            'verify_peer' => $this->verifyPeer,
+            'verify_peer_name' => $this->verifyPerName,
+            'allow_self_signed' => $this->allowSelfSigned,
+            'cafile' => $this->certificateAuthorityFilePath,
+            'capath' => $this->certificateAuthorityDirectory,
+            'local_cert' => $this->certificateFilePath,
+            'local_pk' => $this->privateKeyFilePath,
+            'passphrase' => $this->certificatePassphrase,
+            'verify_depth' => $this->verificationDepth,
+            'ciphers' => $this->ciphers,
+            'capture_peer_cert' => $this->capturePeerCertificate,
+            'capture_peer_cert_chain' => $this->capturePeerCertificateChain,
+            'SNI_enabled' => $this->sniEnabled,
+            'disable_compression' => $this->disableCompression,
+            'peer_fingerprint' => $this->peerFingerprint,
+        ], static function ($v): bool {
+            return $v !== null;
+        });
     }
 }

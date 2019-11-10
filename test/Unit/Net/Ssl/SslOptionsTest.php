@@ -8,27 +8,27 @@ use ScriptFUSION\Porter\Net\Ssl\SslOptions;
  */
 final class SslOptionsTest extends \PHPUnit_Framework_TestCase
 {
-    public function testPeerName()
+    public function testPeerName(): void
     {
         self::assertSame($peerName = 'foo', (new SslOptions)->setPeerName($peerName)->getPeerName());
     }
 
-    public function testVerifyPeer()
+    public function testVerifyPeer(): void
     {
         self::assertFalse((new SslOptions)->setVerifyPeer(false)->getVerifyPeer());
     }
 
-    public function testVerifyPeerName()
+    public function testVerifyPeerName(): void
     {
         self::assertFalse((new SslOptions)->setVerifyPeerName(false)->getVerifyPeerName());
     }
 
-    public function testAllowSelfSigned()
+    public function testAllowSelfSigned(): void
     {
         self::assertTrue((new SslOptions)->setAllowSelfSigned(true)->getAllowSelfSigned());
     }
 
-    public function testCertificateAuthorityFilePath()
+    public function testCertificateAuthorityFilePath(): void
     {
         self::assertSame(
             $caPath = 'foo',
@@ -36,7 +36,7 @@ final class SslOptionsTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testCertificateAuthorityDirectory()
+    public function testCertificateAuthorityDirectory(): void
     {
         self::assertSame(
             $caDirectory = 'foo',
@@ -44,7 +44,7 @@ final class SslOptionsTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testCertificateFilePath()
+    public function testCertificateFilePath(): void
     {
         self::assertSame(
             $certPath = 'foo',
@@ -52,42 +52,42 @@ final class SslOptionsTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testCertificatePassphrase()
+    public function testCertificatePassphrase(): void
     {
         self::assertSame($pass = 'foo', (new SslOptions)->setCertificatePassphrase($pass)->getCertificatePassphrase());
     }
 
-    public function testPrivateKeyFilePath()
+    public function testPrivateKeyFilePath(): void
     {
         self::assertSame($pkPath = 'foo', (new SslOptions)->setPrivateKeyFilePath($pkPath)->getPrivateKeyFilePath());
     }
 
-    public function testVerificationDepth()
+    public function testVerificationDepth(): void
     {
         self::assertSame($depth = 123, (new SslOptions)->setVerificationDepth($depth)->getVerificationDepth());
     }
 
-    public function testCiphers()
+    public function testCiphers(): void
     {
         self::assertSame($ciphers = 'foo', (new SslOptions)->setCiphers($ciphers)->getCiphers());
     }
 
-    public function testCapturePeerCertificate()
+    public function testCapturePeerCertificate(): void
     {
         self::assertTrue((new SslOptions)->setCapturePeerCertificate(true)->getCapturePeerCertificate());
     }
 
-    public function testCapturePeerCertificateChain()
+    public function testCapturePeerCertificateChain(): void
     {
         self::assertTrue((new SslOptions)->setCapturePeerCertificateChain(true)->getCapturePeerCertificateChain());
     }
 
-    public function testSniEnabled()
+    public function testSniEnabled(): void
     {
         self::assertTrue((new SslOptions)->setSniEnabled(true)->getSniEnabled());
     }
 
-    public function testDisableCompression()
+    public function testDisableCompression(): void
     {
         self::assertTrue((new SslOptions)->setDisableCompression(true)->getDisableCompression());
     }
@@ -97,20 +97,20 @@ final class SslOptionsTest extends \PHPUnit_Framework_TestCase
      *
      * @param string|array $fingerprint
      */
-    public function testPeerFingerprint($fingerprint)
+    public function testPeerFingerprint($fingerprint): void
     {
         $options = new SslOptions;
 
         self::assertSame($fingerprint, $options->setPeerFingerprint($fingerprint)->getPeerFingerprint());
     }
 
-    public function providePeerFingerprints()
+    public function providePeerFingerprints(): ?\Generator
     {
         yield 'string' => ['foo'];
         yield 'array' => [['foo' => 'bar']];
     }
 
-    public function testExtractSslContextOptions()
+    public function testExtractSslContextOptions(): void
     {
         $context = (new SslOptions)
             ->setPeerName($peerName = 'foo')
