@@ -1,15 +1,13 @@
 notifications:
   email: false
 
-sudo: false
-
 language: php
 
 php:
-  - 7.1
   - 7.2
   - 7.3
   - 7.4
+  - 8.0
 
 env:
   matrix:
@@ -21,15 +19,14 @@ matrix:
 
 cache:
   directories:
-    - .composer/cache
+    - vendor
 
 install:
-  - alias composer=composer\ -n && composer selfupdate
   - composer validate
   - composer update $DEPENDENCIES
 
 script:
-  - composer test -- --coverage-clover=build/logs/clover.xml
+  - XDEBUG_MODE=coverage composer test -- --coverage-clover=build/logs/clover.xml
 
 after_success:
   - composer require satooshi/php-coveralls

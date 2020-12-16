@@ -1,12 +1,13 @@
 <?php
 namespace ScriptFUSIONTest\Unit;
 
+use PHPUnit\Framework\TestCase;
 use ScriptFUSION\Porter\Net\Ssl\SslOptions;
 
 /**
  * @see SslOptions
  */
-final class SslOptionsTest extends \PHPUnit_Framework_TestCase
+final class SslOptionsTest extends TestCase
 {
     public function testPeerName(): void
     {
